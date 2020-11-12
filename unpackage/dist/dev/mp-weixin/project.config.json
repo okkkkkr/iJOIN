@@ -1,0 +1,62 @@
+{
+  "description": "项目配置文件。",
+  "packOptions": {
+    "ignore": []
+  },
+  "setting": {
+    "urlCheck": false
+  },
+  "compileType": "miniprogram",
+  "libVersion": "",
+  "appid": "touristappid",
+  "projectname": "iJoin_ui",
+  "condition": {
+    "search": {
+      "current": -1,
+      "list": []
+    },
+    "conversation": {
+      "current": -1,
+      "list": []
+    },
+    "game": {
+      "current": -1,
+      "list": []
+    },
+    "miniprogram": {
+      "current": "0",
+      "list": [
+        {
+          "name": "Login",
+          "query": "",
+          "id": 0,
+          "pathName": "pages/login/login"
+        },
+        {
+          "name": "HomePage",
+          "query": "",
+          "id": 1,
+          "pathName": "pages/homepage/content"
+        },
+        {
+          "name": "Hotpot",
+          "query": "",
+          "id": 2,
+          "pathName": "pages/hotspot/content"
+        },
+        {
+          "name": "UserSelf",
+          "query": "",
+          "id": 3,
+          "pathName": "pages/self/user/overview"
+        },
+        {
+          "name": "SponsorSelf",
+          "query": "",
+          "id": 4,
+          "pathName": "pages/self/sponsor/overview"
+        }
+      ]
+    }
+  }
+}

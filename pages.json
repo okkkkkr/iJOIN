@@ -1,0 +1,101 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		// 登录页
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarBackgroundColor": "#1987fa"
+			}
+		},
+		// 首页
+		{
+			"path": "pages/homepage/content",
+			"style": {
+				"navigationBarTextStyle": "black"
+			}
+		},
+		// 热点页
+		{
+			"path": "pages/hotspot/content",
+			"style": {
+				"navigationBarTextStyle": "black"
+			}
+		},
+		// 个人页
+		{
+			"path": "pages/self/user/overview",
+			"style": {
+				"navigationBarTextStyle": "black"
+			}
+		},
+		// 组织页
+		{
+			"path": "pages/self/sponsor/overview",
+			"style": {
+				"navigationBarTextStyle": "black"
+			}
+		}
+	],
+
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"navigationBarTitleText": "iJoin",
+		"backgroundColor": "#FFFFFF"
+	},
+
+	"tabBar": {
+		"color": "#757575",
+		"selectedColor": "#00796b",
+		"backgroundColor": "#FFFFFF",
+		"list": [{
+				"pagePath": "pages/homepage/content",
+				"iconPath": "static/tabar_icon/home.png",
+				"selectedIconPath": "static/tabar_icon/home_selected.png",
+				"text": "i 首页"
+			},
+			{
+				"pagePath": "pages/hotspot/content",
+				"iconPath": "static/tabar_icon/fire.png",
+				"selectedIconPath": "static/tabar_icon/fire_selected.png",
+				"text": "i 热点"
+			}, {
+				"pagePath": "pages/self/sponsor/overview",
+				"iconPath": "static/tabar_icon/people.png",
+				"selectedIconPath": "static/tabar_icon/people_selected.png",
+				"text": "i 自己"
+			}
+		]
+	},
+
+	"condition": {
+		"current": "0",
+		"list": [
+			{
+			"name": "Login",
+			"path": "pages/login/login",
+			"query": ""
+		    },
+			{
+				"name": "HomePage",
+				"path": "pages/homepage/content",
+				"query": ""
+			},
+			{
+				"name": "Hotpot",
+				"path": "pages/hotspot/content",
+				"query": ""
+			},
+			{
+				"name": "UserSelf",
+				"path": "pages/self/user/overview",
+				"query": ""
+			},
+			{
+				"name": "SponsorSelf",
+				"path": "pages/self/sponsor/overview",
+				"query": ""
+			}
+		]
+	}
+}
