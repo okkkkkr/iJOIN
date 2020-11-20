@@ -1,0 +1,1 @@
+<block wx:if="{{sponsor_page}}"><sponsor vue-id="ce2b48e8-1" bind:__l="__l"></sponsor></block><block wx:else><user vue-id="ce2b48e8-2" bind:__l="__l"></user></block>

@@ -6,11 +6,11 @@
 
 		<view class="user_tips">
 			<a class="user_detail" href="#" style="font-weight: bold;">{{ user_name }}</a>
-			<a class="logout" href="pages/login/login">注销登录</a>
+			<text class="logout"  @tap="relaunch_to('/pages/login/login')">注销登录</text>
 		</view>
 
 		<view class="my_item">
-			<view class="my_item_tags bg-white padding">
+			<view class="my_item_tags bg-white padding" >
 				<view class="grid margin-bottom text-center col-3">
 					<view v-for="(item, index) in tags_list" :key="index">
 						<a class="tags_cont" :href="item.tag_path">{{item.tag_title}}</a>
@@ -33,8 +33,8 @@
 							<view class="title_left">
 								<text>我即将进行的活动</text>
 							</view>
-							<view class="title_right">
-								<a href="">查看全部记录＞</a>
+							<view class="title_right" >
+								<text @tap="navigate_to('/pages/self/user/joining')">查看全部记录＞</text>
 							</view>
 						</view>
 					</view>
@@ -42,7 +42,7 @@
 
 				<view class="card_content content flex p-xs margin-bottom-sm mb-sm" v-for="(item, activity_id) in activity_list" :key="activity_id"
 				 :data-id="activity_id">
-					<view class="time flex-sub padding-sm">
+					<view class="time flex-sub padding-sm"> 
 						{{item.activity_publish_time}}
 					</view>
 					<view class="describe flex-treble padding-sm">
@@ -57,18 +57,20 @@
 		</view>
 		
 		<view class="set_info">
-			<a href="#">修改资料＞</a>
+			<text @tap="navigate_to('/pages/self/user/set_info/details')">修改资料＞</text>
 		</view>
 	</view>
 
 </template>
 
 <script>
-	var _selt;
+	import httpRequest from '../../../api/UserInfo.js';
+	
+	var _self;
 	export default {
 		data() {
 			return {
-				user_name: "iJOIN",
+				user_name: "",
 				tags_list: [{
 						index: 1,
 						tag_title: "我参与过",
@@ -101,6 +103,52 @@
 						activity_publish_time: "2020/10/21"
 					}, 
 				]
+			}
+		},
+		mounted() {
+			_self = this;
+			// uni.getStorage({
+			// 	key: 'wechat_id',
+			// 	success: function (res) {
+			// 		console.log("userOverView",res.data)
+			// 		let bit_id = {
+			// 			wechat_bit_id:""
+			// 		}
+					
+			// 	    let wx_data = {
+			// 			wechat_id: res.data
+			// 		}
+					
+			// 		console.log(wx_data) 
+			// 		// 请求学号
+			// 		httpRequest.getStuNo(wx_data).then(res =>{
+			// 			bit_id.wechat_bit_id = res[1].data.data[0].wechat_bit_id;
+			// 			_self.user_name = res[1].data.data[0].wechat_name;
+			// 			uni.setStorage({
+			// 				key:"bit_id",
+			// 				data:bit_id.wechat_bit_id
+			// 			})
+			// 		}).catch(err => {
+			// 			console.log(err);
+			// 		})
+			// 	}
+			// })
+			
+		},
+		methods:{
+			// 保留当前页面，跳转至另一页面
+			navigate_to(pathName){
+				uni.navigateTo({
+					url: pathName
+				})
+			},
+			
+			// 关闭所有页面，跳转另一页面
+			relaunch_to(pathName){
+				console.log(pathName)
+				uni.reLaunch({
+					url: pathName
+				})
 			}
 		}
 	}

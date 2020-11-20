@@ -1,0 +1,21 @@
+
+.cu-form-group .title {
+	min-width: calc(4em + 15px);
+}
+.cu-form-group{
+	margin-top: 2rpx;
+}
+.textwrite{
+	margin-left: 28rpx;
+}
+.line {
+	height: 10rpx;
+	width: 750rpx;
+	background: #eee;
+}
+.submit{
+	width: 100%;
+	color: #FFFFFF;
+	margin-top: 50rpx;
+}
+

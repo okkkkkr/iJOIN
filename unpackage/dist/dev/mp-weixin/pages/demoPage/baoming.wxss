@@ -1,0 +1,30 @@
+
+.cu-form-group .title {
+	min-width: calc(4em + 15px);
+}
+.inputs {
+	margin-left: 20rpx;
+}
+.save {
+	width: 100%;
+	margin-top: 80rpx;
+	color: #FFFFFF;
+}
+.tips1 {
+	margin-top: 120rpx;
+	font-size: 20rpx;
+	text-align: center;
+	color: #ADADAD;
+}
+.tips2 {
+	font-size: 20rpx;
+	text-align: center;
+	color: #ADADAD;
+}
+.xieyi {
+	font-size: 20rpx;
+	margin-top: 170rpx;
+	text-align: center;
+	color: #0000C6;
+}
+

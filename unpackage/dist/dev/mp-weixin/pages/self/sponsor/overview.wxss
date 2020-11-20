@@ -30,9 +30,6 @@
 	padding: 20rpx 0;
 	background-color: #FFFFFF;
 }
-.user_detail {
-	display: inline;
-}
 .logout {
 	position: absolute;
 	left: 570rpx;
@@ -114,10 +111,13 @@
 	-webkit-justify-content: flex-end;
 	        justify-content: flex-end;
 }
-.set_info{
+.set_info {
 	width: 100%;
 	color: #a6a6a6;
 	margin: 50rpx 0;
 	text-align: center;
+}
+.ban_pointor {
+	pointer-events: none;
 }
 

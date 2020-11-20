@@ -1,0 +1,8 @@
+{
+  "navigationBarTextStyle": "black",
+  "navigationBarTitleText": "活动举办",
+  "usingComponents": {
+    "sponsor": "/pages/self/sponsor/overview",
+    "user": "/pages/self/user/overview"
+  }
+}

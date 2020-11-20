@@ -34,6 +34,98 @@
 			"style": {
 				"navigationBarTextStyle": "black"
 			}
+		},
+		// 即将参与的活动列表
+		{
+			"path": "pages/self/user/joining",
+			"style":{
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "即将参与活动"
+			}
+		},
+		// 近期举办活动列表
+		{
+			"path": "pages/self/sponsor/examine_activity/examine_list",
+			"style":{
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "近期举办活动"
+			}
+		},
+		// 主办方消息
+		{
+			"path": "pages/self/sponsor/message",
+			"style":{
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "我的消息"
+			}
+		},
+		// 我的消息
+		{
+			"path": "pages/self/user/message",
+			"style":{
+				"navigationBarTextStyle": "black",
+				"navigationBarTitleText": "我的消息"
+			}
+		},
+		// 主办方信息详情
+		{
+			"path":"pages/self/sponsor/set_info/details",
+			"style":{
+				"navigationBarTextStyle":"black",
+				"navigationBarTitleText":"主办方详情"
+			}
+		},
+		// 个人信息详情
+		{
+			"path":"pages/self/user/set_info/details",
+			"style":{
+				"navigationBarTextStyle":"black",
+				"navigationBarTitleText":"个人详情"
+			}
+		},
+		// 举办活动
+		{
+			"path":"pages/self/sponsor/hold_activity",
+			"style":{
+				"navigationBarTextStyle":"black",
+				"navigationBarTitleText":"活动举办"
+			}
+		},
+		// 用户判断
+		{
+			"path":"pages/self/load_user",
+			"style":{
+				"navigationBarTextStyle":"black",
+				"navigationBarTitleText":"活动举办"
+			}
+		},
+		// 测试图片上传
+		{
+			"path": "pages/uploadTest/upload_test",
+			"style": {
+				"navigationBarBackgroundColor": "#1987fa"
+			}
+		},
+		// 演示报名
+		{
+			"path": "pages/demoPage/baoming",
+			"style": {
+				"navigationBarTextStyle": "black"
+			}
+		},
+		// 演示活动详情1
+		{
+			"path": "pages/homepage/activity/details",
+			"style": {
+				"navigationBarTextStyle": "black"
+			}
+		},
+		// 演示活动详情2
+		{
+			"path": "pages/demoPage/demoDetail",
+			"style": {
+				"navigationBarTextStyle": "black"
+			}
 		}
 	],
 
@@ -60,7 +152,7 @@
 				"selectedIconPath": "static/tabar_icon/fire_selected.png",
 				"text": "i 热点"
 			}, {
-				"pagePath": "pages/self/sponsor/overview",
+				"pagePath": "pages/self/load_user",
 				"iconPath": "static/tabar_icon/people.png",
 				"selectedIconPath": "static/tabar_icon/people_selected.png",
 				"text": "i 自己"
@@ -71,6 +163,17 @@
 	"condition": {
 		"current": "0",
 		"list": [
+			{
+			"name": "demoPage",
+			"path": "pages/demoPage/baoming",
+			"query": ""
+			},
+			{
+			"name": "Detail",
+			"path": "pages/homepage/activity/details",
+			"query": ""
+			},
+			
 			{
 			"name": "Login",
 			"path": "pages/login/login",
@@ -94,6 +197,26 @@
 			{
 				"name": "SponsorSelf",
 				"path": "pages/self/sponsor/overview",
+				"query": ""
+			},
+			{
+				"name": "JoiningList",
+				"path": "pages/self/user/joining",
+				"query": ""
+			},
+			{
+				"name": "SponsorInfo",
+				"path": "pages/self/sponsor/set_info/details",
+				"query": ""
+			},
+			{
+				"name": "UserInfo",
+				"path": "pages/self/user/set_info/details",
+				"query": ""
+			},
+			{
+				"name": "HoldAct",
+				"path": "pages/self/sponsor/hold_activity",
 				"query": ""
 			}
 		]

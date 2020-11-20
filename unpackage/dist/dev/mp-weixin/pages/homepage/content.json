@@ -1,4 +1,6 @@
 {
   "navigationBarTextStyle": "black",
-  "usingComponents": {}
+  "usingComponents": {
+    "loadding": "/pages/common_pages/loadding"
+  }
 }
