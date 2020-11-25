@@ -35,5 +35,6 @@ const baseRequest = (target) => {
 }
 
 export default {
-	baseRequest
+	baseRequest,
+	baseUrl
 }

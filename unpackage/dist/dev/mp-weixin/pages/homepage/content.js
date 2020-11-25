@@ -200,7 +200,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _NavList = _interopRequireDefault(__webpack_require__(/*! ../../api/NavList.js */ 27));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var Loadding = function Loadding() {__webpack_require__.e(/*! require.ensure | pages/common_pages/loadding */ "pages/common_pages/loadding").then((function () {return resolve(__webpack_require__(/*! ../common_pages/loadding.vue */ 157));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
+var _NavList = _interopRequireDefault(__webpack_require__(/*! ../../api/NavList.js */ 27));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var Loadding = function Loadding() {__webpack_require__.e(/*! require.ensure | pages/common_pages/loadding */ "pages/common_pages/loadding").then((function () {return resolve(__webpack_require__(/*! ../common_pages/loadding.vue */ 158));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};
 var _self;var _default =
 {
   components: {
@@ -300,25 +300,18 @@ var _self;var _default =
         url: '/pages/homepage/activity/details' }],
 
 
-      activity_list: [{
+      activity_list: [
+      {
         activity_id: "1",
-        sub_type_name: "学术科技",
-        activity_cover: "../../static/home_page_content/test1.jpg",
-        sponsor_name: "iJoin",
-        activity_title: "这个工作室在北理珠火了！快来加入",
+        sub_type_name: "文化艺术",
+        activity_cover: "../../static/home_page_content/test4.jpg",
+        sponsor_name: "大艺团",
+        activity_title: "大学生艺术团带你实现人生目标！",
         activity_publish_time: "2020-11-10",
-        url: '/pages/demoPage/demoDetail' },
+        url: '' },
 
       {
         activity_id: "2",
-        sub_type_name: "学术科技",
-        activity_cover: "../../static/home_page_content/test2.jpg",
-        sponsor_name: "商职协",
-        activity_title: "致力为商院学生提供就职机会！",
-        activity_publish_time: "2020-11-10" },
-
-      {
-        activity_id: "3",
         sub_type_name: "创新创业",
         activity_cover: "../../static/home_page_content/test3.jpg",
         sponsor_name: "创业学院",
@@ -327,13 +320,20 @@ var _self;var _default =
         url: '' },
 
       {
+        activity_id: "3",
+        sub_type_name: "学术科技",
+        activity_cover: "../../static/home_page_content/test2.jpg",
+        sponsor_name: "商职协",
+        activity_title: "致力为商院学生提供就职机会！",
+        activity_publish_time: "2020-11-10" },
+      {
         activity_id: "4",
-        sub_type_name: "文化艺术",
-        activity_cover: "../../static/home_page_content/test4.jpg",
-        sponsor_name: "大艺团",
-        activity_title: "大学生艺术团带你实现人生目标！",
+        sub_type_name: "学术科技",
+        activity_cover: "../../static/home_page_content/test1.jpg",
+        sponsor_name: "iJoin",
+        activity_title: "这个工作室在北理珠火了！快来加入",
         activity_publish_time: "2020-11-10",
-        url: '' },
+        url: '/pages/demoPage/demoDetail' },
 
       {
         activity_id: "5",

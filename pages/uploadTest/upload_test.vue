@@ -24,8 +24,7 @@
 				</view>
 			</view>
 			
-			<button @click='uploadimage'>上传图片</button>			
-			<button @click='viewmemo'>查看留言</button>
+			<button @click='uploadimage'>上传图片</button>
 		</view>		
 	</view>	
 </template>
@@ -115,12 +114,6 @@
 						})
 					}
 				}
-			},
-			
-			viewmemo:function (e) {
-				uni.navigateTo({  //跳转到指定页面
-					url: "../memo/memo",
-				})
 			}
 		},
 	}

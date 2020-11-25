@@ -2787,6 +2787,29 @@ module.exports.uploadimg = uploadimg; //把uploadimg函数暴露，才能在其�
 
 /***/ }),
 
+/***/ 134:
+/*!******************************************!*\
+  !*** G:/uni-app/iJoin_ui/api/baoming.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ../utils/request.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+// 获取团队近期活动
+var Baoming = function Baoming(data) {
+  return _request.default.baseRequest({
+    url: '/user/apply',
+    method: 'POST',
+    data: data });
+
+};var _default =
+{
+  Baoming: Baoming };exports.default = _default;
+
+/***/ }),
+
 /***/ 17:
 /*!****************************************!*\
   !*** G:/uni-app/iJoin_ui/api/Login.js ***!
@@ -2821,7 +2844,7 @@ var officialLogin = function officialLogin(data) {
 
 /***/ }),
 
-/***/ 176:
+/***/ 177:
 /*!*********************************************************!*\
   !*** G:/uni-app/iJoin_ui/components/uni-icons/icons.js ***!
   \*********************************************************/
@@ -3008,14 +3031,15 @@ var baseRequest = function baseRequest(target) {
 };var _default =
 
 {
-  baseRequest: baseRequest };exports.default = _default;
+  baseRequest: baseRequest,
+  baseUrl: baseUrl };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 
-/***/ 192:
+/***/ 199:
 /*!******************************************!*\
-  !*** G:/uni-app/iJoin_ui/api/baoming.js ***!
+  !*** G:/uni-app/iJoin_ui/api/HoldAct.js ***!
   \******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -3023,16 +3047,17 @@ var baseRequest = function baseRequest(target) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ../utils/request.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
-// 获取团队近期活动
-var Baoming = function Baoming(data) {
+// 举办活动
+var holdActivity = function holdActivity(data) {
   return _request.default.baseRequest({
-    url: '/user/apply',
+    url: '/teamInfo/conductActive',
     method: 'POST',
     data: data });
 
 };var _default =
+
 {
-  Baoming: Baoming };exports.default = _default;
+  holdActivity: holdActivity };exports.default = _default;
 
 /***/ }),
 

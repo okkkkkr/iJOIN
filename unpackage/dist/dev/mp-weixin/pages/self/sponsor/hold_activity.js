@@ -130,100 +130,212 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
-{
-  data: function data() {
-    return {
-      imgList: [],
-      textareaAValue: '' };
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
-  },
-  methods: {
-    ChooseImage: function ChooseImage() {var _this = this;
-      uni.chooseImage({
-        count: 4, //默认9
-        sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _request = _interopRequireDefault(__webpack_require__(/*! ../../../utils/request.js */ 18));
+var _HoldAct = _interopRequireDefault(__webpack_require__(/*! ../../../api/HoldAct.js */ 199));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _self;var _default = { data: function data() {return { imgList: [], initBegin: "", initEnd: "", index: -1, activity_form: { activity_leader: "", activity_phone: "", sub_type_id: "", activity_title: "", activity_content: "", activity_cover: [], activity_start_time: "", activity_end_time: "", activity_people_number: "" }, picker: [{ sub_type_id: "0101", sub_type_name: "学术科技" }, { sub_type_id: "0102", sub_type_name: "文化艺术" }, { sub_type_id: "0103", sub_type_name: "创新创业" }, { sub_type_id: "0201", sub_type_name: "比赛通知" }, { sub_type_id: "0202", sub_type_name: "新闻通知" }] };}, onLoad: function onLoad() {_self = this;uni.getStorage({ key: 'sponsor_id', success: function success(res) {_self.$set(_self.activity_form, 'sponsor_id', res.data);} }); // 初始化时间
+    var nDate = new Date();var beginYear = nDate.getFullYear();var endYear = nDate.getFullYear() + 1;var month = nDate.getMonth() + 1;var day = nDate.getDate();_self.activity_form.activity_start_time = beginYear + '-' + month + '-' + day;_self.activity_form.activity_end_time = beginYear + '-' + month + '-' + day;_self.initBegin = beginYear + '-' + month + '-' + day;_self.initEnd = endYear + '-' + month + '-' + day;}, methods: { // 结束时间
+    endDateChange: function endDateChange(e) {_self.activity_form.activity_end_time = e.detail.value;}, // 开始时间
+    beginDateChange: function beginDateChange(e) {_self.activity_form.activity_start_time = e.detail.value;}, // 单选框，选择类型
+    PickerChange: function PickerChange(e) {if (e.detail.value == -1) {uni.showToast({ title: "请选择所属类型", duration: 2000 });}_self.index = e.detail.value;_self.activity_form.sub_type_id = _self.picker[_self.index].sub_type_id;}, ChooseImage: function ChooseImage() {var _this = this;uni.chooseImage({ count: 4, //默认9
+        sizeType: ['compressed'], //可以指定是原图还是压缩图，默认二者都有
         sourceType: ['album'], //从相册选择
-        success: function success(res) {
-          if (_this.imgList.length != 0) {
-            _this.imgList = _this.imgList.concat(res.tempFilePaths);
-          } else {
-            _this.imgList = res.tempFilePaths;
-          }
-        } });
-
+        success: function success(res) {if (_this.imgList.length != 0) {_this.imgList = _this.imgList.concat(res.tempFilePaths);} else {_this.imgList = res.tempFilePaths;}console.log("this.imgList", _this.imgList);} });}, ViewImage: function ViewImage(e) {uni.previewImage({ urls: this.imgList, current: e.currentTarget.dataset.url });
     },
-    ViewImage: function ViewImage(e) {
-      uni.previewImage({
-        urls: this.imgList,
-        current: e.currentTarget.dataset.url });
 
-    },
     DelImg: function DelImg(e) {var _this2 = this;
       uni.showModal({
         success: function success(res) {
@@ -233,23 +345,55 @@ var _default =
         } });
 
     },
-    textareaAInput: function textareaAInput(e) {
-      this.textareaAValue = e.detail.value;
-    },
+
+    // textareaAInput(e) {
+    // 	this.textareaAValue = e.detail.value
+    // },
 
     submit: function submit() {
-      uni.showToast({
-        title: "发布成功",
-        duration: 1000,
-        success: function success() {
-          setTimeout(function () {
-            uni.switchTab({
-              url: '/pages/homepage/content' });
+      console.log(_self.activity_form);
+      console.log(_self.imgList[0]);
+      for (var i = 0; i < _self.imgList.length; i++) {
+        uni.uploadFile({
+          url: _request.default.baseUrl + '/upload', //仅为示例，非真实的接口地址
+          filePath: _self.imgList[i],
+          name: 'file',
+          formData: {
+            sponsor_id: _self.activity_form.sponsor_id },
 
-          }, 1500);
+          success: function success(uploadFileRes) {
+            _self.activity_form.activity_cover.push(uploadFileRes.data);
+          },
+          fail: function fail(err) {
+            console.log(err);
+          } });
 
-        } });
+      }
 
+
+
+      setTimeout(function () {
+        console.log(_self.activity_form);
+        _HoldAct.default.holdActivity(_self.activity_form).then(function (res) {
+          console.log(res);
+        }).catch(function (err) {
+          console.log(err);
+        });
+      }, 500);
+
+
+      // uni.showToast({
+      // 	title:"发布成功",
+      // 	duration:1000,
+      // 	success() {
+      // 		setTimeout(()=>{
+      // 			uni.switchTab({
+      // 				url:'/pages/homepage/content'
+      // 			})
+      // 		},1500)
+
+      // 	}
+      // })
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

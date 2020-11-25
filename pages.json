@@ -165,7 +165,7 @@
 		"list": [
 			{
 			"name": "demoPage",
-			"path": "pages/demoPage/baoming",
+			"path": "pages/uploadTest/upload_test",
 			"query": ""
 			},
 			{
