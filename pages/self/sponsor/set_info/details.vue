@@ -81,16 +81,23 @@
 			},
 
 			submit_info() {
-				httpRequest.setSponsorInfo(_self.sponsor_info).then(res => {
+				let sponsor_data = {
+					leader: _self.sponsor_info.leader,
+					leader_phone: _self.sponsor_info.leader_phone,
+					sponsor_id: _self.sponsor_info.sponsor_id
+				}
+				
+				httpRequest.setSponsorInfo(sponsor_data).then(res => {
+					console.log(res)
 					uni.showToast({
 						title: '更新成功',
-						duration: 1500
+						duration: 1000
 					});
 					setTimeout(() => {
 						uni.navigateBack({
 							delta: 2
 						});
-					}, 1500)
+					}, 1000)
 
 				}).catch(err => {
 					console.log(err)

@@ -24,6 +24,15 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
+.name {
+  width: 100%;
+  opacity: .2;
+  position: fixed;
+  top: 0;
+  font-size: 16px;
+  text-align: center;
+  padding: 10rpx 0;
+}
 .cu-form-group .title {
   min-width: calc(4em + 15px);
 }
@@ -56,12 +65,8 @@ page {
   font-size: 32rpx;
   line-height: 70rpx;
 }
-.goods_detail .box3 {
-  padding-bottom: 50px;
-}
 .goods_detail .box3 .title {
   font-size: 32rpx;
-  padding-left: 10px;
   border-bottom: 1px solid #eee;
   line-height: 70rpx;
 }

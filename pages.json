@@ -45,7 +45,7 @@
 		},
 		// 近期举办活动列表
 		{
-			"path": "pages/self/sponsor/examine_activity/examine_list",
+			"path": "pages/self/sponsor/nearhold_list/nearhold_list",
 			"style":{
 				"navigationBarTextStyle": "black",
 				"navigationBarTitleText": "近期举办活动"
@@ -99,31 +99,52 @@
 				"navigationBarTitleText":"活动举办"
 			}
 		},
-		// 测试图片上传
+		// 报名
 		{
-			"path": "pages/uploadTest/upload_test",
-			"style": {
-				"navigationBarBackgroundColor": "#1987fa"
-			}
-		},
-		// 演示报名
-		{
-			"path": "pages/demoPage/baoming",
+			"path": "pages/homepage/apply",
 			"style": {
 				"navigationBarTextStyle": "black"
 			}
 		},
-		// 演示活动详情1
+		// 活动信息详情
 		{
 			"path": "pages/homepage/activity/details",
 			"style": {
 				"navigationBarTextStyle": "black"
 			}
 		},
-		// 演示活动详情2
+		// 社团信息详情
 		{
-			"path": "pages/demoPage/demoDetail",
+			"path": "pages/homepage/organize/details",
 			"style": {
+				"navigationBarTextStyle": "black"
+			}
+		},
+		// 我的发布（主办方）
+		{
+			"path":"pages/self/sponsor/my_hold/hold_records",
+			"style":{
+				"navigationBarTextStyle": "black"
+			}
+		},
+		// 正在进行（主办方）
+		{
+			"path":"pages/self/sponsor/holding/holding_list",
+			"style":{
+				"navigationBarTextStyle": "black"
+			}
+		},
+		// 我参与的（用户）
+		{
+			"path":"pages/self/user/paticipate/paticipate_records",
+			"style":{
+				"navigationBarTextStyle": "black"
+			}
+		},
+		// 主办方头像
+		{
+			"path":"pages/control_sp/control",
+			"style":{
 				"navigationBarTextStyle": "black"
 			}
 		}
@@ -163,17 +184,16 @@
 	"condition": {
 		"current": "0",
 		"list": [
-			{
-			"name": "demoPage",
-			"path": "pages/uploadTest/upload_test",
-			"query": ""
-			},
-			{
-			"name": "Detail",
-			"path": "pages/homepage/activity/details",
-			"query": ""
-			},
-			
+			// {
+			// "name": "demoPage",
+			// "path": "pages/uploadTest/upload_test",
+			// "query": ""
+			// },
+			// {
+			// "name": "Detail",
+			// "path": "pages/homepage/activity/details",
+			// "query": ""
+			// },
 			{
 			"name": "Login",
 			"path": "pages/login/login",
@@ -183,42 +203,47 @@
 				"name": "HomePage",
 				"path": "pages/homepage/content",
 				"query": ""
-			},
-			{
-				"name": "Hotpot",
-				"path": "pages/hotspot/content",
-				"query": ""
-			},
-			{
-				"name": "UserSelf",
-				"path": "pages/self/user/overview",
-				"query": ""
-			},
-			{
-				"name": "SponsorSelf",
-				"path": "pages/self/sponsor/overview",
-				"query": ""
-			},
-			{
-				"name": "JoiningList",
-				"path": "pages/self/user/joining",
-				"query": ""
-			},
-			{
-				"name": "SponsorInfo",
-				"path": "pages/self/sponsor/set_info/details",
-				"query": ""
-			},
-			{
-				"name": "UserInfo",
-				"path": "pages/self/user/set_info/details",
-				"query": ""
-			},
-			{
-				"name": "HoldAct",
-				"path": "pages/self/sponsor/hold_activity",
-				"query": ""
 			}
+			// {
+			// 	"name": "Hotpot",
+			// 	"path": "pages/hotspot/content",
+			// 	"query": ""
+			// },
+			// {
+			// 	"name": "UserSelf",
+			// 	"path": "pages/self/user/overview",
+			// 	"query": ""
+			// },
+			// {
+			// 	"name": "SponsorSelf",
+			// 	"path": "pages/self/sponsor/overview",
+			// 	"query": ""
+			// },
+			// {
+			// 	"name": "JoiningList",
+			// 	"path": "pages/self/user/joining",
+			// 	"query": ""
+			// },
+			// {
+			// 	"name": "SponsorInfo",
+			// 	"path": "pages/self/sponsor/set_info/details",
+			// 	"query": ""
+			// },
+			// {
+			// 	"name": "UserInfo",
+			// 	"path": "pages/self/user/set_info/details",
+			// 	"query": ""
+			// },
+			// {
+			// 	"name": "HoldAct",
+			// 	"path": "pages/self/sponsor/hold_activity",
+			// 	"query": ""
+			// },
+			// {
+			// 	"name": "sponsorControl",
+			// 	"path": "pages/control_sp/control",
+			// 	"query": ""
+			// }
 		]
 	}
 }

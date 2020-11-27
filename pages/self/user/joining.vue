@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<view class="avatar_wrapper">
-			<view class="cu-avatar xl round" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg);"></view>
+			<view class="cu-avatar xl round" :style="[{backgroundImage:'url(' + wechat_icon + ');' }]"></view>
 		</view>
 
 		<view class="user_tips">
@@ -21,41 +21,100 @@
 			<view class="card_item cu-item shadow">
 				<view class="card_content content flex p-xs margin-bottom-sm mb-sm">
 					<view class="time flex-sub padding-sm">
-						{{item.activity_publish_time}}
+						{{item.activity_start_time | formatDate}}
 					</view>
 					<view class="describe flex-treble padding-sm">
 						{{item.activity_title}}
 					</view>
 					<view class="remarks flex-twice padding-sm">
-						{{ item.sponsor_name }}
+						{{ item.activity_leader }}
 					</view>
 				</view>
 			</view>
 		</view>
 		
 		<view class="get_details">
-			<a href="#">点击列表项目即可查看详情＞</a>
+			<a href="#">{{acticity_tips}}</a>
 		</view>
 	</view>
 </template>
 
 <script>
+	import actRequest from '../../../api/GetActive.js'
+	
+	var _self;
 	export default {
+		filters: {
+			formatDate(date) {
+				const nDate = new Date(date)
+				const year = nDate.getFullYear()
+				const month = nDate.getMonth() + 1
+				const day = nDate.getDate()
+				return year + '/' + month + '/' + day
+			}
+		},
 		data() {
 			return {
-				user_name: "iJoin",
-				activity_list: [{
-					activity_id: "1",
-					sponsor_name: "学生科技协会",
-					activity_title: "信息系统分析与设计大赛",
-					activity_publish_time: "2020/11/10"
-				}, {
-					activity_id: "2",
-					sponsor_name: "京涛海纳",
-					activity_title: "林俊杰线下演出会北理珠站",
-					activity_publish_time: "2020/10/21"
-				}, ]
+				wechat_icon:"",
+				user_name: "",
+				acticity_tips:"点击列表项目即可查看详情＞",
+				activity_list: [
+				// 	{
+				// 	activity_id: "1",
+				// 	sponsor_name: "学生科技协会",
+				// 	activity_title: "信息系统分析与设计大赛",
+				// 	activity_publish_time: "2020/11/10"
+				// }, {
+				// 	activity_id: "2",
+				// 	sponsor_name: "京涛海纳",
+				// 	activity_title: "林俊杰线下演出会北理珠站",
+				// 	activity_publish_time: "2020/10/21"
+				// }
+				]
 			}
+		},
+		onLoad() {
+			_self = this;
+			
+			uni.getStorage({
+				key:'bit_id',
+				success:function(res){
+					let data = {
+						user_id: res.data
+					}
+					
+					actRequest.getUserJoining(data).then((res) => {
+						if(res[1].data.code == 200){
+							_self.activity_list = res[1].data.data;
+						}else{
+							_self.acticity_tips = "暂无活动信息"
+						}
+					}).catch((err) => {
+						console.log(err)
+					})
+				}
+			})
+			
+			uni.getStorage({
+				key:'wechat_id',
+				success:function(res) {
+					uni.getStorage({
+						key:'wechat_icon',
+						success(res) {
+							_self.wechat_icon = res.data;
+						}
+					})
+					
+					uni.getStorage({
+						key:'wechat_name',
+						success(res) {
+							_self.user_name = res.data;
+						}
+					})
+					
+					
+				}
+			})
 		},
 		methods: {
 			InputFocus(e) {

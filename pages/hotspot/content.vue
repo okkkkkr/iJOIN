@@ -5,11 +5,11 @@
 			<view class="cu-bar search bg-white">
 				<view class="search-form round">
 					<text class="cuIcon-search"></text>
-					<input @focus="InputFocus" @blur="InputBlur" :adjust-position="false" type="text" placeholder="请输入检索内容"
-					 confirm-type="search" :value="search_content"></input>
+					<input @focus="InputFocus" @blur="InputBlur" :adjust-position="false" type="text" placeholder="请输入内容进行全局检索"
+					 confirm-type="search" v-model:value="search_content"></input>
 				</view>
 				<view class="action">
-					<button class="cu-btn bg-cyan shadow-blur round">搜索</button>
+					<button class="cu-btn bg-cyan shadow-blur round" @tap="search">搜索</button>
 				</view>
 			</view>
 		</view>
@@ -21,7 +21,7 @@
 				<swiper class="screen-swiper square-dot" :indicator-dots="true" :circular="true" :autoplay="true" interval="3000"
 				 duration="500">
 					<swiper-item v-for="(item,activity_id) in swiper_list" :key="activity_id" :data-id="activity_id" @tap="swiper_select">
-						<image :src="item.activity_cover" mode="aspectFill"></image>
+						<image :src="(JSON.parse(item.activity_cover)[0])" mode="aspectFill"></image>
 					</swiper-item>
 				</swiper>
 			</view>
@@ -37,17 +37,19 @@
 			</view>
 		</view>
 		
+		<!-- 刷新内容加载框 -->
+		<Loadding class="loadding" v-show="set_loadding" :class="set_loadding===true?'loadding_enter':'loadding_cbk'"></Loadding>
 		<!-- 热点内容 -->
-		<view class="cu-card article" v-for="(item, activity_id) in activity_list" :key="item.activity_id" :data-id="item.activity_id" @tap="hotspot_select">
+		<view class="cu-card article" v-for="(item, activity_id) in activity_list" :key="item.activity_id" :data-id="item.activity_id" @tap="hotspot_select('/pages/homepage/activity/details?activity_id=' + item.activity_id)">
 			<view class="article_cont cu-item shadow">
 				<view class="title"><view class="text-cut">{{ item.activity_title }}</view></view>
 				<view class="content">
-					<image :src="item.activity_cover"
+					<image :src="(JSON.parse(item.activity_cover)[0])"
 					 mode="aspectFill"></image>
 					<view class="desc">
 						<view class="text-content">{{ item.activity_content }}</view>
 						<view>
-							<view class="cu-tag bg-cyan light sm round">{{ item.sponsor_id }}</view>
+							<view class="cu-tag bg-cyan light sm round">{{ item.sponsor_name }}</view>
 							<view class="cu-tag bg-red light sm round">HOT</view>
 						</view>
 					</view>
@@ -63,13 +65,37 @@
 </template>
 
 <script>
+	import contRequest from '../../api/Content.js';
+	import searchRequest from '../../api/Search.js';
+	import Loadding from '../common_pages/loadding.vue';
+	
 	var _self;
 	export default {
+		components: {
+			Loadding
+		},
+		watch:{
+			search_content:function(val){
+				if(val == ""){
+					_self.set_loadding = true;
+					setTimeout(()=>{
+						contRequest.getHotContent().then((res) => {
+							_self.set_loadding = false;
+							_self.activity_list = res[1].data.data
+						}).catch((err) => {
+							console.log(err)
+						})
+					},800)
+					
+				}
+			}
+		},
 		data() {
 			return {
 				search_content: "",
 				searchIcon: "",
 				InputBottom: 0,
+				set_loadding: false,
 
 				swiper_list: [{
 						"activity_id": "1",
@@ -121,11 +147,23 @@
 		},
 		onLoad() {
 			_self = this;
+			contRequest.getHotSwiper().then((res) => {
+				_self.swiper_list = res[1].data.data
+				
+			}).catch((err) => {
+				console.log(err)
+			})
+			
+			contRequest.getHotContent().then((res) => {
+				_self.activity_list = res[1].data.data
+			}).catch((err) => {
+				console.log(err)
+			})
 		},
 		methods: {
 			// 检索框
 			InputFocus(e) {
-				this.InputBottom = e.detail.height
+				this.InputBottom = e.detail.height;
 			},
 			InputBlur(e) {
 				this.InputBottom = 0
@@ -137,8 +175,37 @@
 			},
 			
 			// 热点内容选择
-			hotspot_select(e){
-				console.log("hotspot_select",e)
+			hotspot_select(url) {
+				uni.navigateTo({
+					url
+				})
+			},
+			
+			// 确认检索
+			search(){
+				console.log("_self.search_content",_self.search_content)
+				if(_self.search_content == ""){
+					uni.showToast({
+						title:'请输入检索值',
+						duration: 2000,
+						icon:'none'
+					})
+				}else{
+					let search_data = {
+						test_content: _self.search_content
+					}
+					_self.set_loadding = true;
+					_self.activity_list = [];
+					setTimeout(() => {
+						searchRequest.getSearch(search_data).then((res) => {
+							_self.activity_list = res[1].data.data
+							_self.set_loadding = false;
+						}).catch((err) => {
+							console.log(err)
+						})
+					}, 800)
+					
+				}
 			}
 
 		}

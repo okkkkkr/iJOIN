@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<view class="avatar_wrapper">
-			<view class="cu-avatar xl round" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg);"></view>
+			<view class="cu-avatar xl round" :style="[{backgroundImage:'url(' + sponsor_icon + ');' }]"></view>
 		</view>
 
 		<view class="user_tips">
@@ -34,30 +34,93 @@
 		</view>
 
 		<view class="get_details">
-			<a href="#">点击列表项目即可了解详情＞</a>
+			<a href="#">{{ notice_tips }}</a>
 		</view>
 	</view>
 </template>
 
 <script>
+	import noticeRequest from '../../../api/Notice.js'
+	
+	var _self;
 	export default {
 		data() {
 			return {
-				user_name: "iJoin",
-				notice_list: [{
-						notice_id: 1,
-						notice_title: "微信小程序之创新创意编程总决赛咨询",
-						scan_status: "待处理",
-						notice_time: "2020/10/25"
-					},
-					{
-						notice_id: 2,
-						notice_title: "游戏角色原画设计大赛09-26报名名单审核",
-						scan_status: "待处理",
-						notice_time: "2020/10/28"
-					}
+				sponsor_icon:"",
+				user_name: "",
+				notice_tips:"点击列表项目即可了解详情＞",
+				notice_list: [
+					// {
+					// 	notice_id: 1,
+					// 	notice_title: "微信小程序之创新创意编程总决赛咨询",
+					// 	scan_status: "待处理",
+					// 	notice_time: "2020/10/25"
+					// },
+					// {
+					// 	notice_id: 2,
+					// 	notice_title: "游戏角色原画设计大赛09-26报名名单审核",
+					// 	scan_status: "待处理",
+					// 	notice_time: "2020/10/28"
+					// }
 				]
 			}
+		},
+		onLoad() {
+			_self = this;
+			
+			uni.getStorage({
+				key:'sponsor_id',
+				success(res) {
+					let notice_data = {
+						obj_id: ""
+					}
+					
+					notice_data.obj_id = res.data
+					
+					// 获取我的消息（主办方未处理）
+					noticeRequest.getUntreated(notice_data).then((res) => {
+						console.log("getNotice")
+						if(res[1].data.code == 200){
+							let initStatus = [].concat(res[1].data.data);
+							for(let i=0; i<_self.notice_list.length; i++){
+								initStatus[i].notice_status = "未处理"
+							}
+							_self.notice_list = [].concat(initStatus)
+						}else{
+							_self.notice_tips = "暂无消息通知"
+						}
+					}).catch((err) => {
+						console.log(err)
+					})
+					
+					noticeRequest.getProcessed(notice_data).then((res) => {
+						console.log("getNotice2")
+						if(res[1].data.code == 200){
+							let initStatus = [].concat(res[1].data.data);
+							for(let i=0; i<_self.notice_list.length; i++){
+								initStatus[i].notice_status = "已处理"
+							}
+							_self.notice_list = _self.notice_list.concat(initStatus)
+						}else{
+							_self.notice_tips = "暂无消息通知"
+						}
+					})
+				}
+			})
+			
+			uni.getStorage({
+				key:'sponsor_icon',
+				success(res) {
+					_self.sponsor_icon = res.data
+				}
+			})
+			
+			uni.getStorage({
+				key:'sponsor_name',
+				success(res) {
+					_self.user_name = res.data
+				}
+			})
 		},
 		methods: {
 			InputFocus(e) {

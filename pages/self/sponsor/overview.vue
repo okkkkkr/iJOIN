@@ -1,7 +1,7 @@
 <template>
 	<view class="content" :class="pointer_event === false?'ban_pointor':''">
 		<view class="avatar_wrapper">
-			<view class="cu-avatar xl round" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg);"></view>
+			<view class="cu-avatar xl round" :style="[{backgroundImage:'url(' + sponsor_icon + ');' }]"></view>
 		</view>
 
 		<view class="user_tips">
@@ -35,7 +35,7 @@
 			<view class="my_item_tags bg-white padding">
 				<view class="grid margin-bottom text-center col-3">
 					<view v-for="(item, index) in tags_list" :key="index">
-						<a class="tags_cont" :href="item.tag_path">{{item.tag_title}}</a>
+						<view class="tags_cont" @tap="navigate_to(item.tag_path)">{{item.tag_title}}</view>
 						<text class="tags_text">{{item.tag_number}}</text>
 					</view>
 				</view>
@@ -53,9 +53,9 @@
 					<view class="title_tags bg-white padding">
 						<view class="grid margin-bottom text-center col-2">
 							<view class="title_left">
-								<text>近期举办活动</text>
+								<text>尚未开始活动</text>
 							</view>
-							<view class="title_right" @tap="navigate_to('/pages/self/sponsor/examine_activity/examine_list')">
+							<view class="title_right" @tap="navigate_to('/pages/self/sponsor/nearhold_list/nearhold_list')">
 								<text>查看全部记录＞</text>
 							</view>
 						</view>
@@ -96,13 +96,13 @@
 				<view class="card_content content flex p-xs margin-bottom-sm mb-sm" v-for="(item, notice_id) in notice_list" :key="notice_id"
 				 :data-id="notice_id">
 					<view class="time flex-sub padding-sm">
-						{{item.notice_time}}
+						{{item.notice_time | formatDate}}
 					</view>
 					<view class="describe flex-treble padding-sm">
-						{{item.notice_title}}
+						{{item.notice_content}}
 					</view>
 					<view class="remarks flex-twice padding-sm">
-						{{ item.scan_status }}
+						{{ item.notice_status }}
 					</view>
 				</view>
 
@@ -118,6 +118,7 @@
 
 <script>
 	import httpRequest from '../../../api/GetActive.js'
+	import noticeRequest from '../../../api/Notice.js'
 
 	var _self;
 	export default {
@@ -134,21 +135,23 @@
 		},
 		data() {
 			return {
-
-				user_name: "iJOIN",
+				user_name: "",
 				logout_flag: false,
 				pointer_event: true,
+				sponsor_icon:"",
+				my_hold:[],
+				holding:[],
 				tags_list: [{
 						index: 1,
 						tag_title: "我的发布",
-						tag_path: "#",
-						tag_number: "68"
+						tag_path: "/pages/self/sponsor/my_hold/hold_records",
+						tag_number: "0"
 					},
 					{
 						index: 2,
 						tag_title: "正在进行",
-						tag_path: "#",
-						tag_number: "3"
+						tag_path: "/pages/self/sponsor/holding/holding_list",
+						tag_number: "0"
 					},
 					{
 						index: 3,
@@ -158,30 +161,31 @@
 					},
 				],
 				activity_list:[
-					{
-						activity_id: "1",
-						leader: "吴俊忠",
-						activity_title: "微信小程序之创新创意编程总决赛",
-						activity_publish_time: "2020/09/29"
-					}, {
-						activity_id: "2",
-						leader: "陈颖茵",
-						activity_title: "游戏角色原画设计初赛",
-						activity_publish_time: "2020/10/30"
-					}
+					// {
+					// 	activity_id: "1",
+					// 	leader: "吴俊忠",
+					// 	activity_title: "微信小程序之创新创意编程总决赛",
+					// 	activity_publish_time: "2020/09/29"
+					// }, {
+					// 	activity_id: "2",
+					// 	leader: "陈颖茵",
+					// 	activity_title: "游戏角色原画设计初赛",
+					// 	activity_publish_time: "2020/10/30"
+					// }
 				],
-				notice_list: [{
-						notice_id: 1,
-						notice_title: "微信小程序之创新创意编程总决赛咨询",
-						scan_status: "待处理",
-						notice_time: "2020/10/25"
-					},
-					{
-						notice_id: 2,
-						notice_title: "游戏角色原画设计大赛09-26报名名单审核",
-						scan_status: "待处理",
-						notice_time: "2020/10/28"
-					}
+				notice_list: [
+					// {
+					// 	notice_id: 1,
+					// 	notice_title: "微信小程序之创新创意编程总决赛咨询",
+					// 	notice_status: "待处理",
+					// 	notice_time: "2020/10/25"
+					// },
+					// {
+					// 	notice_id: 2,
+					// 	notice_title: "游戏角色原画设计大赛09-26报名名单审核",
+					// 	notice_status: "待处理",
+					// 	notice_time: "2020/10/28"
+					// }
 				]
 			}
 		},
@@ -191,18 +195,76 @@
 				key: 'sponsor_id',
 				success: function(res) {
 					let sponsor_data = {
-						sponsor_id: ""
+						sponsor_id: res.data
 					}
-					sponsor_data.sponsor_id = res.data
-					// 请求用户数据
+					
+					let notice_data = {
+						obj_id: res.data
+					}
+					
+					// 获取尚未开始的活动
 					httpRequest.getActiveInfo(sponsor_data).then(res => {
-						console.log('result', res[1].data.data);
 						_self.activity_list = [].concat(res[1].data.data);
 					}).catch(err => {
 						console.log(err)
 					})
+					
+					// 获取我的发布
+					httpRequest.getAllActiveInfo(sponsor_data).then((res) => {
+						console.log("getAll",_self.tags_list[0].tag_number)
+						if(res[1].data.code == 200){
+							_self.my_hold = res[1].data.data;
+							_self.tags_list[0].tag_number = _self.my_hold.length;
+						}else{
+							_self.tags_list[0].tag_number = 0;
+						}
+					}).catch((err) => {
+						console.log(err)
+					})
+					
+					// 获取正在进行
+					httpRequest.getHoldingInfo(sponsor_data).then((res) => {
+						console.log("getAll2",_self.tags_list[1].tag_number)
+						if(res[1].data.code == 200){
+							_self.holding = res[1].data.data;
+							_self.tags_list[1].tag_number = _self.holding.length;
+						}else{
+							_self.tags_list[1].tag_number = 0;
+						}
+					}).catch((err) => {
+						console.log(err)
+					})
+					
+					// 获取我的消息（主办方未处理）
+					noticeRequest.getUntreated(notice_data).then((res) => {
+						console.log("getNotice")
+						if(res[1].data.code == 200){
+							_self.notice_list = res[1].data.data;
+							for(let i=0; i<_self.notice_list.length; i++){
+								_self.notice_list[i].notice_status = "未处理"
+							}
+						}
+					}).catch((err) => {
+						console.log(err)
+					})
 				}
 			})
+			
+			uni.getStorage({
+				key:'sponsor_icon',
+				success(res) {
+					_self.sponsor_icon = res.data
+				}
+			})
+			
+			uni.getStorage({
+				key:'sponsor_name',
+				success(res) {
+					_self.user_name = res.data
+				}
+			})
+			
+			
 		},
 		methods: {
 

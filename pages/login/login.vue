@@ -81,6 +81,8 @@
 
 <script>
 	import loginHttp from '../../api/Login.js'
+	import httpRequest from '../../api/getAllWXuser.js'
+	
 	var _self;
 	export default {
 		data() {
@@ -111,17 +113,18 @@
 					}
 				},
 				
-				wx_user: [{
-					wechat_id: "cyy0304",
-					wechat_icon: "https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg",
-					wechat_name: "陈颖茵的微信"
-				}]
+				wx_user: []
 			}
 		},
 		onLoad() {
 			_self = this;
 			uni.clearStorage()
 			console.log("onLoad!")
+			
+			httpRequest.getAllWXuser().then((res) => {
+				_self.wx_user = res[1].data.data
+			})
+			
 		},
 		onHide() {
 			console.log("onHide!")
@@ -172,9 +175,14 @@
 
 			// 登陆封装
 			loginRequest(data, role) {
+				
+				//微信
 				if (role == 1) {
 					loginHttp.wxLogin(data).then(res => {
 						_self.login_tips = "授权中...";
+						_self.set_storage("wechat_icon",JSON.parse(res[1].data.data[0].wechat_icon))
+						_self.set_storage("wechat_name",res[1].data.data[0].wechat_name)
+						
 						if (res[1].data.code == 200) {
 							setTimeout(() => {
 								_self.login_tips = "授权成功";
@@ -214,11 +222,15 @@
 						}, 2000)
 					})
 				}
-
+				
+				// 官方
 				if (role == 0) {
 					loginHttp.officialLogin(data).then(res => {
 						_self.login_tips = "授权中...";
 						if (res[1].data.code == 200) {
+							
+							_self.set_storage("sponsor_icon",JSON.parse(res[1].data.data[0].sponsor_icon))
+							_self.set_storage("sponsor_name",res[1].data.data[0].sponsor_name)
 							
 							_self.set_storage("role", role);
 							_self.set_storage("sponsor_id", data.sponsor_id)

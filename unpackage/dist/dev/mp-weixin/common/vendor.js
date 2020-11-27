@@ -1935,18 +1935,65 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 124:
+/***/ 114:
+/*!******************************************!*\
+  !*** G:/uni-app/iJoin_ui/api/HoldAct.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ../utils/request.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+// 举办活动
+var holdActivity = function holdActivity(data) {
+  return _request.default.baseRequest({
+    url: '/teamInfo/conductActive',
+    method: 'POST',
+    data: data });
+
+};var _default =
+
+{
+  holdActivity: holdActivity };exports.default = _default;
+
+/***/ }),
+
+/***/ 129:
+/*!******************************************!*\
+  !*** G:/uni-app/iJoin_ui/api/baoming.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ../utils/request.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+// 获取团队近期活动
+var Baoming = function Baoming(data) {
+  return _request.default.baseRequest({
+    url: '/applyinfo/newapplyinfo',
+    method: 'POST',
+    data: data });
+
+};var _default =
+{
+  Baoming: Baoming };exports.default = _default;
+
+/***/ }),
+
+/***/ 138:
 /*!**********************************************************!*\
   !*** ./node_modules/@babel/runtime/regenerator/index.js ***!
   \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 125);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 139);
 
 /***/ }),
 
-/***/ 125:
+/***/ 139:
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -1977,7 +2024,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 126);
+module.exports = __webpack_require__(/*! ./runtime */ 140);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -1994,7 +2041,7 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 126:
+/***/ 140:
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -2726,90 +2773,6 @@ if (hadRuntime) {
 
 /***/ }),
 
-/***/ 127:
-/*!*****************************************************!*\
-  !*** G:/uni-app/iJoin_ui/pages/uploadTest/upimg.js ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(uni) {//多张图片上传
-function uploadimg(data) {
-  var app = getApp();
-  var imgurln = [];
-  var that = this;
-  var i;
-  var _success;
-  var _fail;
-
-  i = data.i ? data.i : 0, //当前上传的哪张图片
-  _success = data.success ? data.success : 0, //上传成功的个数
-  _fail = data.fail ? data.fail : 0; //上传失败的个数
-  uni.uploadFile({
-    url: data.url, //从调用页面传入 -- url: 'http://127.0.0.1:3000/' 后端接口地址
-    filePath: data.path[i], //从调用页面传入 --path: imgbox, 选取图片的地址数组  
-    name: 'img', //文件名称可以自定义，要与后端配对使用：app.post('/',upload.single('img'),function(req,res,next)
-    formData: { //这里是上传图片时一起上传的数据
-      user: data.user,
-      memo: data.text //从调用页面传入 -- text:text1 文本框内容  
-    },
-
-    success: function success(resp) {
-      _success++; //图片上传成功，图片上传成功的变量+1
-      //console.log(resp.data) //在调试窗口显示后端返回的图片名称      
-      imgurln = imgurln.concat('http://127.0.0.1:3000/' + resp.data); //以图片名称拼接成网址，并追加到数组imgurln
-    },
-
-    fail: function fail(res) {//失败
-      _fail++; //图片上传失败，图片上传失败的变量+1
-      console.log('fail:' + i + "fail:" + _fail);
-    },
-
-    complete: function complete() {//不论成功、失败都执行		
-      i++; //这个图片执行完上传后，开始上传下一张
-      if (i == data.path.length) {//当图片传完时，停止调用				
-        console.log('1>' + imgurln);
-        console.log('执行完毕');
-        console.log('成功：' + _success + " 失败：" + _fail);
-      } else {//若图片还没有传完，则继续调用函数
-        //console.log(i);
-        data.i = i;
-        data.success = _success;
-        data.fail = _fail;
-        that.uploadimg(data);
-      }
-    } });
-
-}
-
-module.exports.uploadimg = uploadimg; //把uploadimg函数暴露，才能在其它js文件引用此函数。
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-
-/***/ 134:
-/*!******************************************!*\
-  !*** G:/uni-app/iJoin_ui/api/baoming.js ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ../utils/request.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
-
-// 获取团队近期活动
-var Baoming = function Baoming(data) {
-  return _request.default.baseRequest({
-    url: '/user/apply',
-    method: 'POST',
-    data: data });
-
-};var _default =
-{
-  Baoming: Baoming };exports.default = _default;
-
-/***/ }),
-
 /***/ 17:
 /*!****************************************!*\
   !*** G:/uni-app/iJoin_ui/api/Login.js ***!
@@ -2841,148 +2804,6 @@ var officialLogin = function officialLogin(data) {
 {
   wxLogin: wxLogin,
   officialLogin: officialLogin };exports.default = _default;
-
-/***/ }),
-
-/***/ 177:
-/*!*********************************************************!*\
-  !*** G:/uni-app/iJoin_ui/components/uni-icons/icons.js ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
-  "pulldown": "\uE588",
-  "refreshempty": "\uE461",
-  "back": "\uE471",
-  "forward": "\uE470",
-  "more": "\uE507",
-  "more-filled": "\uE537",
-  "scan": "\uE612",
-  "qq": "\uE264",
-  "weibo": "\uE260",
-  "weixin": "\uE261",
-  "pengyouquan": "\uE262",
-  "loop": "\uE565",
-  "refresh": "\uE407",
-  "refresh-filled": "\uE437",
-  "arrowthindown": "\uE585",
-  "arrowthinleft": "\uE586",
-  "arrowthinright": "\uE587",
-  "arrowthinup": "\uE584",
-  "undo-filled": "\uE7D6",
-  "undo": "\uE406",
-  "redo": "\uE405",
-  "redo-filled": "\uE7D9",
-  "bars": "\uE563",
-  "chatboxes": "\uE203",
-  "camera": "\uE301",
-  "chatboxes-filled": "\uE233",
-  "camera-filled": "\uE7EF",
-  "cart-filled": "\uE7F4",
-  "cart": "\uE7F5",
-  "checkbox-filled": "\uE442",
-  "checkbox": "\uE7FA",
-  "arrowleft": "\uE582",
-  "arrowdown": "\uE581",
-  "arrowright": "\uE583",
-  "smallcircle-filled": "\uE801",
-  "arrowup": "\uE580",
-  "circle": "\uE411",
-  "eye-filled": "\uE568",
-  "eye-slash-filled": "\uE822",
-  "eye-slash": "\uE823",
-  "eye": "\uE824",
-  "flag-filled": "\uE825",
-  "flag": "\uE508",
-  "gear-filled": "\uE532",
-  "reload": "\uE462",
-  "gear": "\uE502",
-  "hand-thumbsdown-filled": "\uE83B",
-  "hand-thumbsdown": "\uE83C",
-  "hand-thumbsup-filled": "\uE83D",
-  "heart-filled": "\uE83E",
-  "hand-thumbsup": "\uE83F",
-  "heart": "\uE840",
-  "home": "\uE500",
-  "info": "\uE504",
-  "home-filled": "\uE530",
-  "info-filled": "\uE534",
-  "circle-filled": "\uE441",
-  "chat-filled": "\uE847",
-  "chat": "\uE263",
-  "mail-open-filled": "\uE84D",
-  "email-filled": "\uE231",
-  "mail-open": "\uE84E",
-  "email": "\uE201",
-  "checkmarkempty": "\uE472",
-  "list": "\uE562",
-  "locked-filled": "\uE856",
-  "locked": "\uE506",
-  "map-filled": "\uE85C",
-  "map-pin": "\uE85E",
-  "map-pin-ellipse": "\uE864",
-  "map": "\uE364",
-  "minus-filled": "\uE440",
-  "mic-filled": "\uE332",
-  "minus": "\uE410",
-  "micoff": "\uE360",
-  "mic": "\uE302",
-  "clear": "\uE434",
-  "smallcircle": "\uE868",
-  "close": "\uE404",
-  "closeempty": "\uE460",
-  "paperclip": "\uE567",
-  "paperplane": "\uE503",
-  "paperplane-filled": "\uE86E",
-  "person-filled": "\uE131",
-  "contact-filled": "\uE130",
-  "person": "\uE101",
-  "contact": "\uE100",
-  "images-filled": "\uE87A",
-  "phone": "\uE200",
-  "images": "\uE87B",
-  "image": "\uE363",
-  "image-filled": "\uE877",
-  "location-filled": "\uE333",
-  "location": "\uE303",
-  "plus-filled": "\uE439",
-  "plus": "\uE409",
-  "plusempty": "\uE468",
-  "help-filled": "\uE535",
-  "help": "\uE505",
-  "navigate-filled": "\uE884",
-  "navigate": "\uE501",
-  "mic-slash-filled": "\uE892",
-  "search": "\uE466",
-  "settings": "\uE560",
-  "sound": "\uE590",
-  "sound-filled": "\uE8A1",
-  "spinner-cycle": "\uE465",
-  "download-filled": "\uE8A4",
-  "personadd-filled": "\uE132",
-  "videocam-filled": "\uE8AF",
-  "personadd": "\uE102",
-  "upload": "\uE402",
-  "upload-filled": "\uE8B1",
-  "starhalf": "\uE463",
-  "star-filled": "\uE438",
-  "star": "\uE408",
-  "trash": "\uE401",
-  "phone-filled": "\uE230",
-  "compose": "\uE400",
-  "videocam": "\uE300",
-  "trash-filled": "\uE8DC",
-  "download": "\uE403",
-  "chatbubble-filled": "\uE232",
-  "chatbubble": "\uE202",
-  "cloud-download": "\uE8E4",
-  "cloud-upload-filled": "\uE8E5",
-  "cloud-upload": "\uE8E6",
-  "cloud-download-filled": "\uE8E9",
-  "headphones": "\uE8BF",
-  "shop": "\uE609" };exports.default = _default;
 
 /***/ }),
 
@@ -3037,27 +2858,37 @@ var baseRequest = function baseRequest(target) {
 
 /***/ }),
 
-/***/ 199:
-/*!******************************************!*\
-  !*** G:/uni-app/iJoin_ui/api/HoldAct.js ***!
-  \******************************************/
+/***/ 19:
+/*!***********************************************!*\
+  !*** G:/uni-app/iJoin_ui/api/getAllWXuser.js ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ../utils/request.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
-// 举办活动
-var holdActivity = function holdActivity(data) {
+// 获取所有微信信息
+var getAllWXuser = function getAllWXuser() {
   return _request.default.baseRequest({
-    url: '/teamInfo/conductActive',
-    method: 'POST',
+    url: '/getAllWXuser',
+    method: 'get' });
+
+};
+
+// 获取单个微信用户信息
+var getWXuser = function getWXuser(data) {
+  return _request.default.baseRequest({
+    url: '/self/getWXInfo',
+    method: 'post',
     data: data });
 
 };var _default =
 
+
 {
-  holdActivity: holdActivity };exports.default = _default;
+  getAllWXuser: getAllWXuser,
+  getWXuser: getWXuser };exports.default = _default;
 
 /***/ }),
 
@@ -9105,7 +8936,149 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 27:
+/***/ 203:
+/*!*********************************************************!*\
+  !*** G:/uni-app/iJoin_ui/components/uni-icons/icons.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
+  "pulldown": "\uE588",
+  "refreshempty": "\uE461",
+  "back": "\uE471",
+  "forward": "\uE470",
+  "more": "\uE507",
+  "more-filled": "\uE537",
+  "scan": "\uE612",
+  "qq": "\uE264",
+  "weibo": "\uE260",
+  "weixin": "\uE261",
+  "pengyouquan": "\uE262",
+  "loop": "\uE565",
+  "refresh": "\uE407",
+  "refresh-filled": "\uE437",
+  "arrowthindown": "\uE585",
+  "arrowthinleft": "\uE586",
+  "arrowthinright": "\uE587",
+  "arrowthinup": "\uE584",
+  "undo-filled": "\uE7D6",
+  "undo": "\uE406",
+  "redo": "\uE405",
+  "redo-filled": "\uE7D9",
+  "bars": "\uE563",
+  "chatboxes": "\uE203",
+  "camera": "\uE301",
+  "chatboxes-filled": "\uE233",
+  "camera-filled": "\uE7EF",
+  "cart-filled": "\uE7F4",
+  "cart": "\uE7F5",
+  "checkbox-filled": "\uE442",
+  "checkbox": "\uE7FA",
+  "arrowleft": "\uE582",
+  "arrowdown": "\uE581",
+  "arrowright": "\uE583",
+  "smallcircle-filled": "\uE801",
+  "arrowup": "\uE580",
+  "circle": "\uE411",
+  "eye-filled": "\uE568",
+  "eye-slash-filled": "\uE822",
+  "eye-slash": "\uE823",
+  "eye": "\uE824",
+  "flag-filled": "\uE825",
+  "flag": "\uE508",
+  "gear-filled": "\uE532",
+  "reload": "\uE462",
+  "gear": "\uE502",
+  "hand-thumbsdown-filled": "\uE83B",
+  "hand-thumbsdown": "\uE83C",
+  "hand-thumbsup-filled": "\uE83D",
+  "heart-filled": "\uE83E",
+  "hand-thumbsup": "\uE83F",
+  "heart": "\uE840",
+  "home": "\uE500",
+  "info": "\uE504",
+  "home-filled": "\uE530",
+  "info-filled": "\uE534",
+  "circle-filled": "\uE441",
+  "chat-filled": "\uE847",
+  "chat": "\uE263",
+  "mail-open-filled": "\uE84D",
+  "email-filled": "\uE231",
+  "mail-open": "\uE84E",
+  "email": "\uE201",
+  "checkmarkempty": "\uE472",
+  "list": "\uE562",
+  "locked-filled": "\uE856",
+  "locked": "\uE506",
+  "map-filled": "\uE85C",
+  "map-pin": "\uE85E",
+  "map-pin-ellipse": "\uE864",
+  "map": "\uE364",
+  "minus-filled": "\uE440",
+  "mic-filled": "\uE332",
+  "minus": "\uE410",
+  "micoff": "\uE360",
+  "mic": "\uE302",
+  "clear": "\uE434",
+  "smallcircle": "\uE868",
+  "close": "\uE404",
+  "closeempty": "\uE460",
+  "paperclip": "\uE567",
+  "paperplane": "\uE503",
+  "paperplane-filled": "\uE86E",
+  "person-filled": "\uE131",
+  "contact-filled": "\uE130",
+  "person": "\uE101",
+  "contact": "\uE100",
+  "images-filled": "\uE87A",
+  "phone": "\uE200",
+  "images": "\uE87B",
+  "image": "\uE363",
+  "image-filled": "\uE877",
+  "location-filled": "\uE333",
+  "location": "\uE303",
+  "plus-filled": "\uE439",
+  "plus": "\uE409",
+  "plusempty": "\uE468",
+  "help-filled": "\uE535",
+  "help": "\uE505",
+  "navigate-filled": "\uE884",
+  "navigate": "\uE501",
+  "mic-slash-filled": "\uE892",
+  "search": "\uE466",
+  "settings": "\uE560",
+  "sound": "\uE590",
+  "sound-filled": "\uE8A1",
+  "spinner-cycle": "\uE465",
+  "download-filled": "\uE8A4",
+  "personadd-filled": "\uE132",
+  "videocam-filled": "\uE8AF",
+  "personadd": "\uE102",
+  "upload": "\uE402",
+  "upload-filled": "\uE8B1",
+  "starhalf": "\uE463",
+  "star-filled": "\uE438",
+  "star": "\uE408",
+  "trash": "\uE401",
+  "phone-filled": "\uE230",
+  "compose": "\uE400",
+  "videocam": "\uE300",
+  "trash-filled": "\uE8DC",
+  "download": "\uE403",
+  "chatbubble-filled": "\uE232",
+  "chatbubble": "\uE202",
+  "cloud-download": "\uE8E4",
+  "cloud-upload-filled": "\uE8E5",
+  "cloud-upload": "\uE8E6",
+  "cloud-download-filled": "\uE8E9",
+  "headphones": "\uE8BF",
+  "shop": "\uE609" };exports.default = _default;
+
+/***/ }),
+
+/***/ 28:
 /*!******************************************!*\
   !*** G:/uni-app/iJoin_ui/api/NavList.js ***!
   \******************************************/
@@ -9135,6 +9108,108 @@ var getChildrenNav = function getChildrenNav(data) {
 {
   getParentNavList: getParentNavList,
   getChildrenNav: getChildrenNav };exports.default = _default;
+
+/***/ }),
+
+/***/ 29:
+/*!********************************************!*\
+  !*** G:/uni-app/iJoin_ui/api/GetActive.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ../utils/request.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+// 获取所有i组织活动
+var getAllOrganize = function getAllOrganize() {
+  return _request.default.baseRequest({
+    url: '/public/getAnyContent/A1',
+    method: 'get' });
+
+};
+
+// 获取所有i活动活动
+var getAllActive = function getAllActive() {
+  return _request.default.baseRequest({
+    url: '/public/getAnyContent/A2',
+    method: 'get' });
+
+};
+
+// 获取子类活动信息
+var getSonActive = function getSonActive(data) {
+  return _request.default.baseRequest({
+    url: '/public/gettypeactiinfo/' + data,
+    method: 'get' });
+
+};
+
+// 获取团队尚未开始活动
+var getActiveInfo = function getActiveInfo(data) {
+  return _request.default.baseRequest({
+    url: '/teamInfo/getActive',
+    method: 'POST',
+    data: data });
+
+};
+
+// 获取团队发布的所有活动
+var getAllActiveInfo = function getAllActiveInfo(data) {
+  return _request.default.baseRequest({
+    url: '/activityinfo/teamactivity',
+    method: 'POST',
+    data: data });
+
+};
+
+// 获取正在进行的活动(主办方)
+var getHoldingInfo = function getHoldingInfo(data) {
+  return _request.default.baseRequest({
+    url: '/activityinfo/teamNowactivity',
+    method: 'POST',
+    data: data });
+
+};
+
+
+// 获取用户参与过的活动
+var getUserActiveInfo = function getUserActiveInfo(data) {
+  return _request.default.baseRequest({
+    url: '/user/userActivity',
+    method: 'POST',
+    data: data });
+
+};
+
+// 获取用户即将进行的活动
+var getUserJoining = function getUserJoining(data) {
+  return _request.default.baseRequest({
+    url: '/user/userwhillActivity',
+    method: 'POST',
+    data: data });
+
+};
+
+// 获取活动详情
+var getActiveDetail = function getActiveDetail(data) {
+  return _request.default.baseRequest({
+    url: '/activityinfo/newActivityinfo',
+    method: 'POST',
+    data: data });
+
+};var _default =
+
+{
+  getAllOrganize: getAllOrganize,
+  getAllActive: getAllActive,
+  getSonActive: getSonActive,
+  getUserActiveInfo: getUserActiveInfo,
+  getAllActiveInfo: getAllActiveInfo,
+  getHoldingInfo: getHoldingInfo,
+  getUserJoining: getUserJoining,
+  getActiveInfo: getActiveInfo,
+  getActiveDetail: getActiveDetail };exports.default = _default;
 
 /***/ }),
 
@@ -9169,6 +9244,64 @@ module.exports = g;
 
 /***/ }),
 
+/***/ 30:
+/*!*****************************************!*\
+  !*** G:/uni-app/iJoin_ui/api/Search.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ../utils/request.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+// 未处理通知
+var getSearch = function getSearch(data) {
+  return _request.default.baseRequest({
+    url: '/active/search',
+    method: 'post',
+    data: data });
+
+};var _default =
+
+{
+  getSearch: getSearch };exports.default = _default;
+
+/***/ }),
+
+/***/ 39:
+/*!******************************************!*\
+  !*** G:/uni-app/iJoin_ui/api/Content.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ../utils/request.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+// 获取热点内容
+var getHotContent = function getHotContent(data) {
+  return _request.default.baseRequest({
+    url: '/popular/getContent',
+    method: 'GET' });
+
+};
+
+// 获取热点轮播图
+var getHotSwiper = function getHotSwiper(data) {
+  return _request.default.baseRequest({
+    url: '/popular/getRotation',
+    method: 'GET' });
+
+};var _default =
+
+
+
+{
+  getHotSwiper: getHotSwiper,
+  getHotContent: getHotContent };exports.default = _default;
+
+/***/ }),
+
 /***/ 4:
 /*!**************************************!*\
   !*** G:/uni-app/iJoin_ui/pages.json ***!
@@ -9180,7 +9313,7 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 44:
+/***/ 48:
 /*!*******************************************!*\
   !*** G:/uni-app/iJoin_ui/api/UserInfo.js ***!
   \*******************************************/
@@ -9208,10 +9341,10 @@ var getUserInfo = function getUserInfo(data) {
 
 };
 
-// 修改个人信息
+// 修改个人电话（修改个人信息）
 var setUserInfo = function setUserInfo(data) {
   return _request.default.baseRequest({
-    url: '/userInfo/setInfo',
+    url: '/myInfo/setPhone',
     method: 'POST',
     data: data });
 
@@ -9244,26 +9377,47 @@ var setSponsorInfo = function setSponsorInfo(data) {
 
 /***/ }),
 
-/***/ 53:
-/*!********************************************!*\
-  !*** G:/uni-app/iJoin_ui/api/GetActive.js ***!
-  \********************************************/
+/***/ 49:
+/*!*****************************************!*\
+  !*** G:/uni-app/iJoin_ui/api/Notice.js ***!
+  \*****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! ../utils/request.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 
-// 获取团队近期活动
-var getActiveInfo = function getActiveInfo(data) {
+// 未处理通知
+var getUntreated = function getUntreated(data) {
   return _request.default.baseRequest({
-    url: '/teamInfo/getActive/',
-    method: 'POST',
+    url: '/notice/noticeUntreated',
+    method: 'post',
+    data: data });
+
+};
+
+// 已处理通知
+var getProcessed = function getProcessed(data) {
+  return _request.default.baseRequest({
+    url: "/notice/noticeProcessed",
+    method: 'post',
+    data: data });
+
+};
+
+// 变更通知状态
+var changeState = function changeState(data) {
+  return _request.default.baseRequest({
+    url: "/notice/updateStatus",
+    method: 'post',
     data: data });
 
 };var _default =
+
 {
-  getActiveInfo: getActiveInfo };exports.default = _default;
+  getUntreated: getUntreated,
+  getProcessed: getProcessed,
+  changeState: changeState };exports.default = _default;
 
 /***/ })
 

@@ -18,10 +18,10 @@ const getUserInfo = (data) => {
 	})
 }
 
-// 修改个人信息
+// 修改个人电话（修改个人信息）
 const setUserInfo = (data) => {
 	return request.baseRequest({
-		url:'/userInfo/setInfo',
+		url:'/myInfo/setPhone',
 		method:'POST',
 		data
 	})

@@ -5,11 +5,11 @@
 			<view class="cu-bar search bg-white">
 				<view class="search-form round">
 					<text class="cuIcon-search"></text>
-					<input @focus="InputFocus" @blur="InputBlur" :adjust-position="false" type="text" placeholder="请输入检索内容"
-					 confirm-type="search" :value="search_content"></input>
+					<input @focus="InputFocus" @blur="InputBlur" :adjust-position="false" type="text" placeholder="请输入内容进行全局检索"
+					 confirm-type="search" v-model:value="search_content"></input>
 				</view>
 				<view class="action">
-					<button class="cu-btn bg-cyan shadow-blur round">搜索</button>
+					<button class="cu-btn bg-cyan shadow-blur round" @tap="search">搜索</button>
 				</view>
 			</view>
 		</view>
@@ -17,7 +17,7 @@
 		<!-- 导航框 -->
 		<scroll-view scroll-x class="bg-white nav" scroll-with-animation>
 			<view class="cu-item" :class="sup_type_id == TabCur?'tab_color_focus cur':''" v-for="(item, sup_type_id) in nav_list"
-			 :key="sup_type_id" @tap="tabSelect" :data-id="sup_type_id">
+			 :key="sup_type_id" @click="tabSelect" :data-id="sup_type_id">
 				{{item.sup_type_name}}
 			</view>
 		</scroll-view>
@@ -25,7 +25,7 @@
 		<!-- 分类栏 -->
 		<view class="tag_wrapper">
 			<view class='cu-tag radius' :class="sub_type_id == TagCur ? 'tag_color_focus':'tag_color_unfocus'" v-for="(item, sub_type_id) in tag_list"
-			 :key="item.sub_type_id" @tap="tagSelect" :data-id="sub_type_id">
+			 :key="sub_type_id" @click="tagSelect(JSON.stringify(item.sub_type_id))" @tap="TagSelect" :data-id="sub_type_id">
 				{{ item.sub_type_name }}
 			</view>
 		</view>
@@ -35,19 +35,18 @@
 
 		<!-- 展示内容 -->
 		<view class="cu-card case" v-for="(item, activity_id) in activity_list" :key="activity_id" :data-id="activity_id"
-		 @tap="activitySelect(item.url)">
+		 @tap="activitySelect('/pages/homepage/activity/details?activity_id=' + item.activity_id)">
 			<view class="cu-item shadow">
 				<view class="image">
-					<image style="max-height: 500rpx;" :src="item.activity_cover" mode="widthFix"></image>
-					<view class="cu-tag bg-blue">{{ item.sub_type_name }}</view>
+					<image style="max-height: 500rpx;" :src="(JSON.parse(item.activity_cover)[0])" mode="widthFix"></image>
 				</view>
 				<view class="cu-list menu-avatar">
 					<view class="cu-item">
-						<view class="cu-avatar round lg" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10006.jpg);"></view>
+						<view class="cu-avatar round lg" :style="[{backgroundImage:'url(' + item.sponsor_icon + ');' }]"></view>
 						<view class="content flex-sub">
 							<view class="text-grey">{{ item.activity_title}}</view>
 							<view class="text-gray text-sm flex justify-between">
-								{{item.sponsor_name}} &nbsp;&nbsp; {{ item.activity_publish_time }}
+								{{item.sponsor_name}} &nbsp;&nbsp; {{ item.activity_publish_time | formatDate }}
 								<view class="text-gray text-sm">
 									<text class="cuIcon-attentionfill margin-lr-xs"></text> 1.2k
 									<text class="cuIcon-appreciatefill margin-lr-xs"></text> 1k
@@ -69,10 +68,46 @@
 <script>
 	import Loadding from '../common_pages/loadding.vue';
 	import httpRequest from '../../api/NavList.js';
+	import actRequest from '../../api/GetActive.js';
+	import searchRequest from '../../api/Search.js';
+
 	var _self;
 	export default {
 		components: {
 			Loadding
+		},
+		filters: {
+			formatDate(date) {
+				const nDate = new Date(date)
+				const year = nDate.getFullYear()
+				const month = nDate.getMonth() + 1
+				const day = nDate.getDate()
+				return year + '-' + month + '-' + day
+			}
+		},
+		watch:{
+			search_content:function(val){
+				if(val == ""){
+					_self.TagCur = 0;
+					if(_self.TabCur == 0){
+						httpRequest.getChildrenNav("A1").then(res => {
+							_self.tag_list = _self.tag_model.concat(res[1].data.data);
+							_self.set_loadding = true;
+							_self.get_organize();
+						}).catch(err => {
+							console.log("err", err)
+						})
+					}else{
+						httpRequest.getChildrenNav("A2").then(res => {
+							_self.tag_list = _self.tag_model2.concat(res[1].data.data);
+							_self.set_loadding = true;
+							_self.get_active();
+						}).catch(err => {
+							console.log("err", err)
+						})
+					}
+				}
+			}
 		},
 		data() {
 			return {
@@ -93,142 +128,71 @@
 						sup_type_name: "i 活动"
 					}
 				],
-				
-				tag_model:[
-					{
-						sub_type_id: "0100",
-						sub_type_name: "全部分类"
-					}
-				],
+
+				tag_model: [{
+					sub_type_id: "A1",
+					sub_type_name: "全部分类"
+				}],
+				tag_model2: [{
+					sub_type_id: "A2",
+					sub_type_name: "全部分类"
+				}],
 
 				tag_list: [],
-
-				tag_list_2: [],
-
-				active_list: [{
-						activity_id: "1",
-						sub_type_name: "学术科技",
-						activity_cover: "../../static/home_page_content/test1.jpg",
-						sponsor_name: "iJoin",
-						activity_title: "这个工作室在北理珠火了！快来加入",
-						activity_publish_time: "2020-11-10",
-						url:'/pages/demoPage/demoDetail'
-					},
-					{
-						activity_id: "2",
-						sub_type_name: "学术科技",
-						activity_cover: "../../static/home_page_content/test2.jpg",
-						sponsor_name: "商职协",
-						activity_title: "致力为商院学生提供就职机会！",
-						activity_publish_time: "2020-11-10",
-						url:''
-					},
-					{
-						activity_id: "3",
-						sub_type_name: "创新创业",
-						activity_cover: "../../static/home_page_content/test3.jpg",
-						sponsor_name: "创业学院",
-						activity_title: "创新创业联盟-赢在“企”跑线！",
-						activity_publish_time: "2020-11-10",
-						url:''
-					},
-					{
-						activity_id: "4",
-						sub_type_name: "文化艺术",
-						activity_cover: "../../static/home_page_content/test4.jpg",
-						sponsor_name: "大艺团",
-						activity_title: "大学生艺术团带你实现人生目标！",
-						activity_publish_time: "2020-11-10",
-						url:''
-					},
-					{
-						activity_id: "5",
-						sub_type_name: "文化艺术",
-						activity_cover: "../../static/home_page_content/test5.png",
-						sponsor_name: "电影社-",
-						activity_title: "史诗巨作邀你一同欣赏",
-						activity_publish_time: "2020-11-10",
-						url:''
-					},
-					{
-						activity_id: "6",
-						sub_type_name: "学术科技",
-						activity_cover: "../../static/home_page_content/test6.jpeg",
-						sponsor_name: "学生科技协会",
-						activity_title: "大学生艺术团带你实现人生目标！",
-						activity_publish_time: "2020-11-10",
-						url:''
-					},{
-						activity_id: "7",
-						sub_type_name: "学术科技",
-						activity_cover: "../../static/demoImg/demoImg.jpg",
-						sponsor_name: "北理珠商学院",
-						activity_title: "商院精英齐聚一堂！",
-						activity_publish_time: "2020-11-20",
-						url:'/pages/homepage/activity/details'
-					}
-				],
 				activity_list: [
-					{
-						activity_id: "1",
-						sub_type_name: "文化艺术",
-						activity_cover: "../../static/home_page_content/test4.jpg",
-						sponsor_name: "大艺团",
-						activity_title: "大学生艺术团带你实现人生目标！",
-						activity_publish_time: "2020-11-10",
-						url:''
-					},
-					{
-						activity_id: "2",
-						sub_type_name: "创新创业",
-						activity_cover: "../../static/home_page_content/test3.jpg",
-						sponsor_name: "创业学院",
-						activity_title: "创新创业联盟-赢在“企”跑线！",
-						activity_publish_time: "2020-11-10",
-						url:''
-					},
-					{
-						activity_id: "3",
-						sub_type_name: "学术科技",
-						activity_cover: "../../static/home_page_content/test2.jpg",
-						sponsor_name: "商职协",
-						activity_title: "致力为商院学生提供就职机会！",
-						activity_publish_time: "2020-11-10"
-					},{
-						activity_id: "4",
-						sub_type_name: "学术科技",
-						activity_cover: "../../static/home_page_content/test1.jpg",
-						sponsor_name: "iJoin",
-						activity_title: "这个工作室在北理珠火了！快来加入",
-						activity_publish_time: "2020-11-10",
-						url:'/pages/demoPage/demoDetail'
-					},
-					{
-						activity_id: "5",
-						sub_type_name: "文化艺术",
-						activity_cover: "../../static/home_page_content/test5.png",
-						sponsor_name: "电影社-",
-						activity_title: "史诗巨作邀你一同欣赏",
-						activity_publish_time: "2020-11-10",
-						url:''
-					},
-					{
-						activity_id: "6",
-						sub_type_name: "学术科技",
-						activity_cover: "../../static/home_page_content/test6.jpeg",
-						sponsor_name: "学生科技协会",
-						activity_title: "大学生艺术团带你实现人生目标！",
-						activity_publish_time: "2020-11-10",
-						url:''
-					},{
-						activity_id: "7",
-						sub_type_name: "学术科技",
-						activity_cover: "../../static/demoImg/demoImg.jpg",
-						sponsor_name: "北理珠商学院",
-						activity_title: "商院精英齐聚一堂！",
-						activity_publish_time: "2020-11-20",
-						url:'/pages/homepage/activity/details'
-					}
+					// {
+					// 	activity_id: "1",
+					// 	sub_type_name: "文化艺术",
+					// 	activity_cover: "../../static/home_page_content/test4.jpg",
+					// 	sponsor_name: "大艺团",
+					// 	activity_title: "大学生艺术团带你实现人生目标！",
+					// 	activity_publish_time: "2020-11-10"
+					// },
+					// {
+					// 	activity_id: "2",
+					// 	sub_type_name: "创新创业",
+					// 	activity_cover: "../../static/home_page_content/test3.jpg",
+					// 	sponsor_name: "创业学院",
+					// 	activity_title: "创新创业联盟-赢在“企”跑线！",
+					// 	activity_publish_time: "2020-11-10"
+					// },
+					// {
+					// 	activity_id: "3",
+					// 	sub_type_name: "学术科技",
+					// 	activity_cover: "../../static/home_page_content/test2.jpg",
+					// 	sponsor_name: "商职协",
+					// 	activity_title: "致力为商院学生提供就职机会！"
+					// },{
+					// 	activity_id: "4",
+					// 	sub_type_name: "学术科技",
+					// 	activity_cover: "../../static/home_page_content/test1.jpg",
+					// 	sponsor_name: "iJoin",
+					// 	activity_title: "这个工作室在北理珠火了！快来加入",
+					// 	activity_publish_time: "2020-11-10"
+					// },
+					// {
+					// 	activity_id: "5",
+					// 	sub_type_name: "文化艺术",
+					// 	activity_cover: "../../static/home_page_content/test5.png",
+					// 	sponsor_name: "电影社-",
+					// 	activity_title: "史诗巨作邀你一同欣赏",
+					// 	activity_publish_time: "2020-11-10"
+					// },
+					// {
+					// 	activity_id: "6",
+					// 	sub_type_name: "学术科技",
+					// 	activity_cover: "../../static/home_page_content/test6.jpeg",
+					// 	sponsor_name: "学生科技协会",
+					// 	activity_title: "大学生艺术团带你实现人生目标！",
+					// 	activity_publish_time: "2020-11-10"
+					// },{
+					// 	activity_id: "7",
+					// 	sub_type_name: "学术科技",
+					// 	activity_cover: "../../static/demoImg/demoImg.jpg",
+					// 	sponsor_name: "北理珠商学院",
+					// 	activity_title: "商院精英齐聚一堂！",
+					// 	activity_publish_time: "2020-11-20"
+					// }
 				]
 
 			}
@@ -236,66 +200,96 @@
 		onLoad() {
 			console.log("onload")
 			_self = this;
-			console.log(_self)
-			
-			httpRequest.getChildrenNav("01").then(res => {
-				_self.tag_list = _self.tag_model.concat(res[1].data.data)
+
+			// 获取所有i组织活动信息
+			_self.get_organize();
+
+			httpRequest.getChildrenNav("A1").then(res => {
+				_self.tag_list = _self.tag_model.concat(res[1].data.data);
 			}).catch(err => {
 				console.log("err", err)
 			})
-			
+
 			uni.getStorage({
-			    key: 'role',
-			    success: function (res) {
-					console.log("role",res)
-			        if(res.data == 0){
+				key: 'role',
+				success: function(res) {
+					console.log("role", res)
+					if (res.data == 0) {
 						console.log("setTabBar")
 						uni.setTabBarItem({
-						  index: 2,
-						  text: 'i 组织'
+							index: 2,
+							text: 'i 组织'
 						})
 					}
-			    }
+				}
 			});
 		},
 		methods: {
 			// 检索框
 			InputFocus(e) {
-				this.InputBottom = e.detail.height
+				this.InputBottom = e.detail.height;
 			},
 			InputBlur(e) {
-				// this.InputBottom = 0
+				this.InputBottom = 0
 			},
 
 			// 导航栏
 			tabSelect(e) {
+				_self.TagCur = 0;
+				_self.activity_list = [];
+				_self.tag_list = [];
 				console.log("---------------", e)
 				_self.TabCur = e.currentTarget.dataset.id
-				let id = e.currentTarget.dataset.id == 0 ? "01":"02";
-				
-				_self.tag_list.splice(0, _self.tag_list.length);
-				_self.activity_list.splice(0, _self.activity_list.length);
+				let id = e.currentTarget.dataset.id == 0 ? "A1" : "A2";
 				_self.set_loadding = true;
-				setTimeout(() => {
-					_self.set_loadding = false;
-					httpRequest.getChildrenNav(id).then(res => {
-							_self.tag_list = _self.tag_model.concat(res[1].data.data)
-					}).catch(err => {
-						console.log("err", err)
-					})
-					_self.activity_list = [].concat(_self.active_list)
-				}, 2000)
+
+				httpRequest.getChildrenNav(id).then(res => {
+					if (id == "A1") {
+						_self.tag_list = _self.tag_model.concat(res[1].data.data);
+					} else {
+						_self.tag_list = _self.tag_model2.concat(res[1].data.data);
+					}
+
+				}).catch(err => {
+					console.log("err", err)
+				})
+
+				if (id == "A1") {
+					//获取i组织全部活动
+					_self.get_organize();
+				} else {
+					//获取i活动全部活动
+					_self.get_active();
+				}
 			},
 
 			// 分类栏
-			tagSelect(e) {
-				_self.activity_list.splice(0, _self.activity_list.length);
+			tagSelect(id) {
+				id = JSON.parse(id);
 				_self.set_loadding = true;
-				setTimeout(() => {
-					_self.set_loadding = false;
-					_self.activity_list = [].concat(_self.active_list)
-				}, 2000)
-				this.TagCur = e.currentTarget.dataset.id;
+				_self.activity_list = [];
+				console.log("------id--------", id)
+				if (id == "A1") {
+					console.log(1)
+					_self.get_organize();
+				} else if (id == "A2") {
+					console.log(2)
+					_self.get_active();
+				} else {
+					setTimeout(() => {
+						actRequest.getSonActive(id).then((res) => {
+							_self.activity_list = res[1].data.data
+						}).catch((err) => {
+							console.log(err)
+						})
+						_self.set_loadding = false;
+					}, 800)
+				}
+			},
+
+			// 分类栏2
+			TagSelect(e) {
+				_self.TagCur = e.currentTarget.dataset.id;
 			},
 
 			// 活动内容
@@ -305,8 +299,61 @@
 				})
 			},
 
-			
+			// 获取组织全部信息
+			get_organize() {
+				setTimeout(() => {
+					actRequest.getAllOrganize().then((res) => {
+						console.log("获取组织全部信息")
+						_self.activity_list = res[1].data.data;
 
+					}).catch((err) => {
+						console.log(err)
+					})
+					_self.set_loadding = false;
+				}, 800)
+
+			},
+
+			// 获取活动全部信息
+			get_active() {
+				setTimeout(() => {
+					console.log("获取活动全部信息")
+					actRequest.getAllActive().then((res) => {
+						_self.activity_list = res[1].data.data;
+					}).catch((err) => {
+						console.log(err);
+					})
+					_self.set_loadding = false;
+				}, 800)
+
+			},
+			
+			// 确认检索
+			search(){
+				console.log("_self.search_content",_self.search_content)
+				if(_self.search_content == ""){
+					uni.showToast({
+						title:'请输入检索值',
+						duration: 2000,
+						icon:'none'
+					})
+				}else{
+					let search_data = {
+						test_content: _self.search_content
+					}
+					_self.set_loadding = true;
+					_self.activity_list = [];
+					setTimeout(() => {
+						searchRequest.getSearch(search_data).then((res) => {
+							_self.activity_list = res[1].data.data
+							_self.set_loadding = false;
+						}).catch((err) => {
+							console.log(err)
+						})
+					}, 800)
+					
+				}
+			}
 		}
 	}
 </script>

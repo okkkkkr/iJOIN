@@ -34,7 +34,7 @@
 			</view> -->
 			<view class="cu-bar bg-white" style="margin-top: 10rpx;">
 				<view class="action">
-					图片上传
+					图片上传(首张将作为封面)
 				</view>
 				<view class="action">
 					{{imgList.length}}/4
@@ -61,14 +61,23 @@
 				<view class="title">标题</view>
 				<input placeholder="请输入标题" name="input" v-model:value="activity_form.activity_title"></input>
 			</view>
-			
+
 			<view class="cu-form-group">
 				<view class="title">人数限制</view>
-				<input placeholder="请输入报名限制的人数" name="input" v-model:value="activity_form.activity_people_number"></input>
+				<input placeholder="请输入报名限制的人数" name="input" type="number" v-model:value="activity_form.activity_people_number"></input>
 			</view>
 
 			<view class="cu-form-group">
-				<view class="title">开始时间</view>
+				<view class="title">报名截止时间</view>
+				<picker mode="date" :value="activity_form.apply_end_time" :start="initBegin" :end="initEnd" @change="applyDateChange">
+					<view class="picker">
+						{{activity_form.apply_end_time}}
+					</view>
+				</picker>
+			</view>
+
+			<view class="cu-form-group">
+				<view class="title">活动开始时间</view>
 				<picker mode="date" :value="activity_form.activity_start_time" :start="initBegin" :end="initEnd" @change="beginDateChange">
 					<view class="picker">
 						{{activity_form.activity_start_time}}
@@ -77,7 +86,7 @@
 			</view>
 
 			<view class="cu-form-group">
-				<view class="title">结束时间</view>
+				<view class="title">活动结束时间</view>
 				<picker mode="date" :value="activity_form.activity_end_time" :start="initBegin" :end="initEnd" @change="endDateChange">
 					<view class="picker">
 						{{activity_form.activity_end_time}}
@@ -104,8 +113,8 @@
 		data() {
 			return {
 				imgList: [],
-				initBegin:"",
-				initEnd:"",
+				initBegin: "",
+				initEnd: "",
 				index: -1,
 				activity_form: {
 					activity_leader: "",
@@ -114,25 +123,26 @@
 					activity_title: "",
 					activity_content: "",
 					activity_cover: [],
-					activity_start_time:"",
-					activity_end_time:"",
-					activity_people_number:""
+					activity_start_time: "",
+					activity_end_time: "",
+					activity_people_number: 10,
+					apply_end_time: ""
 				},
 				picker: [{
-						sub_type_id: "0101",
+						sub_type_id: "A101",
 						sub_type_name: "学术科技"
 					},
 					{
-						sub_type_id: "0102",
+						sub_type_id: "A102",
 						sub_type_name: "文化艺术"
 					}, {
-						sub_type_id: "0103",
+						sub_type_id: "A103",
 						sub_type_name: "创新创业"
 					}, {
-						sub_type_id: "0201",
+						sub_type_id: "A201",
 						sub_type_name: "比赛通知"
 					}, {
-						sub_type_id: "0202",
+						sub_type_id: "A202",
 						sub_type_name: "新闻通知"
 					},
 				]
@@ -155,15 +165,21 @@
 			let day = nDate.getDate();
 			_self.activity_form.activity_start_time = beginYear + '-' + month + '-' + day;
 			_self.activity_form.activity_end_time = beginYear + '-' + month + '-' + day;
+			_self.activity_form.apply_end_time = beginYear + '-' + month + '-' + day;
 			_self.initBegin = beginYear + '-' + month + '-' + day;
 			_self.initEnd = endYear + '-' + month + '-' + day;
 		},
 		methods: {
-			// 结束时间
+			// 报名截止时间
+			applyDateChange(e) {
+				_self.activity_form.apply_end_time = e.detail.value;
+			},
+
+			// 活动结束时间
 			endDateChange(e) {
 				_self.activity_form.activity_end_time = e.detail.value;
 			},
-			// 开始时间
+			// 活动开始时间
 			beginDateChange(e) {
 				_self.activity_form.activity_start_time = e.detail.value;
 			},
@@ -237,31 +253,31 @@
 						}
 					});
 				}
-				
-				
-				
-				setTimeout(()=>{
+
+
+
+				setTimeout(() => {
 					console.log(_self.activity_form)
 					Request.holdActivity(_self.activity_form).then((res) => {
 						console.log(res)
 					}).catch(err => {
 						console.log(err)
 					})
-				},500)
+				}, 500)
 
 
-				// uni.showToast({
-				// 	title:"发布成功",
-				// 	duration:1000,
-				// 	success() {
-				// 		setTimeout(()=>{
-				// 			uni.switchTab({
-				// 				url:'/pages/homepage/content'
-				// 			})
-				// 		},1500)
+				uni.showToast({
+					title:"发布成功",
+					duration:1000,
+					success() {
+						setTimeout(()=>{
+							uni.switchTab({
+								url:'/pages/homepage/content'
+							})
+						},1500)
 
-				// 	}
-				// })
+					}
+				})
 
 			}
 		}

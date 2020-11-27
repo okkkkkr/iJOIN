@@ -25,70 +25,16 @@
     "miniprogram": {
       "list": [
         {
-          "name": "demoPage",
-          "query": "",
-          "id": 0,
-          "pathName": "pages/uploadTest/upload_test"
-        },
-        {
-          "name": "Detail",
-          "query": "",
-          "id": 1,
-          "pathName": "pages/homepage/activity/details"
-        },
-        {
           "name": "Login",
           "query": "",
-          "id": 2,
+          "id": 0,
           "pathName": "pages/login/login"
         },
         {
           "name": "HomePage",
           "query": "",
-          "id": 3,
+          "id": 1,
           "pathName": "pages/homepage/content"
-        },
-        {
-          "name": "Hotpot",
-          "query": "",
-          "id": 4,
-          "pathName": "pages/hotspot/content"
-        },
-        {
-          "name": "UserSelf",
-          "query": "",
-          "id": 5,
-          "pathName": "pages/self/user/overview"
-        },
-        {
-          "name": "SponsorSelf",
-          "query": "",
-          "id": 6,
-          "pathName": "pages/self/sponsor/overview"
-        },
-        {
-          "name": "JoiningList",
-          "query": "",
-          "id": 7,
-          "pathName": "pages/self/user/joining"
-        },
-        {
-          "name": "SponsorInfo",
-          "query": "",
-          "id": 8,
-          "pathName": "pages/self/sponsor/set_info/details"
-        },
-        {
-          "name": "UserInfo",
-          "query": "",
-          "id": 9,
-          "pathName": "pages/self/user/set_info/details"
-        },
-        {
-          "name": "HoldAct",
-          "query": "",
-          "id": 10,
-          "pathName": "pages/self/sponsor/hold_activity"
         }
       ]
     }
